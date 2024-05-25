@@ -10,6 +10,7 @@ const layout = ({
   return (
     <>
         <Image src={authbackground} alt='image' className='h-screen w-full'/>
+        {children}
     </>
   )
 }
