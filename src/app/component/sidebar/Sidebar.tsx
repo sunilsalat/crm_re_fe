@@ -1,69 +1,51 @@
-"use client"
+"use client";
 
-import React, { useState } from 'react'
+import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-
-import { MdDashboardCustomize, MdOutlineNetworkWifi3Bar } from "react-icons/md";
-import { PiShareNetworkBold } from 'react-icons/pi';
-import { LuNetwork } from 'react-icons/lu';
-import { AiFillGolden, AiFillSetting } from 'react-icons/ai';
-import { IoPersonAddSharp, IoSettingsSharp } from 'react-icons/io5';
+import { MdDashboardCustomize } from 'react-icons/md';
+import { IoPersonAddSharp } from 'react-icons/io5';
 import Image from 'next/image';
-import { BsJoystick , BsClipboard2CheckFill } from 'react-icons/bs';
-import { FaUserGroup } from "react-icons/fa6";
+import { FaUserGroup } from 'react-icons/fa6';
 
+const Sidebar = ({ isNavOpen, setNavOpen }: { isNavOpen: boolean; setNavOpen: any }) => {
+  const pathname = usePathname();
 
+  const handleLinkClick = () => {
+    setNavOpen(false);
+  };
 
+  return (
+    <div className={`fixed md:relative bg-[#eaf0fa] h-full transition-transform transform ${isNavOpen ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0 w-64 shadow-lg`}>
+      <div className="bg-white flex items-center justify-between py-4 px-8 border-b border-gray-200">
+        <Link href="/dashboard">
+          <Image
+            src={'/img/real-estate-logo-942759067F-seeklogo.png'}
+            height={90}
+            width={90}
+            alt={'logo'}
+          />
+        </Link>
+        <button className="md:hidden" onClick={() => setNavOpen(false)}>
+          ✕
+        </button>
+      </div>
+      <nav className=" mt-6 px-4 flex flex-col gap-4">
+        <Link href="/dashboard" onClick={handleLinkClick} className={`flex items-center py-2 px-4 rounded-lg ${pathname === '/dashboard' ? 'bg-blue-500 text-white' : 'text-[#31435f] hover:bg-[#c1d3f0]'}`}>
+          <MdDashboardCustomize className="text-2xl mr-2" />
+          Dashboard
+        </Link>
+        <Link href="/customers" onClick={handleLinkClick} className={`flex items-center py-2 px-4 rounded-lg ${pathname === '/customers' ? 'bg-blue-500 text-white' : 'text-gray-700 hover:bg-[#c1d3f0]'}`}>
+          <FaUserGroup className="text-2xl mr-2" />
+          Customers
+        </Link>
+        <Link href="/add-lead" onClick={handleLinkClick} className={`flex items-center py-2 px-4 rounded-lg ${pathname === '/add-lead' ? 'bg-blue-500 text-white' : 'text-gray-700 hover:bg-[#c1d3f0]'}`}>
+          <IoPersonAddSharp className="text-2xl mr-2" />
+          Add Lead
+        </Link>
+      </nav>
+    </div>
+  );
+};
 
-const Sidebar = ({ isNavOpen, setNavOpen }: { isNavOpen: boolean, setNavOpen: any }) => {
-
-    const pathname = usePathname();
-    
-    const [openDropDown, setOpenDropDown] = useState<boolean>(false)
-
-    return (
-        <>
-            <Link className='h-[80px] flex items-center bg-white pl-10 pr-8 md:pr-0 justify-between cursor-pointer' href="/dashboard">
-                <div className='relative h-full '>
-                <Image src={'/img/real-estate-logo-942759067F-seeklogo.com.png'} height={100} className='h-full w-full' width={300} alt={'login-img'} ></Image>
-                </div>
-                <span className='block md:hidden' onClick={() => setNavOpen(!isNavOpen)}>WhiteCrossIcon</span>
-            </Link>
-
-            {/* <hr className=' border-gray-11' /> */}
-
-            <div className='px-6 pt-10 space-y-4 border-black border-t-2'>
-                <div onClick={() => setNavOpen(false)}>
-                    <div className={`flex items-center py-3 px-4 space-x-2 justify-between ${pathname === '/dashboard' ? 'bg-magenta rounded-[8px]' : ''}`}>
-                        <Link href="/dashboard" className={`flex space-x-4 items-center`}> 
-                            <MdDashboardCustomize className='text-[24px]'/>
-                            <p className='font-gilroy-medium capitalize'> Dashboard </p></Link>
-
-                        {/* <div className={`cursor-pointer ${openDropDown ? "rotate-180" : ""}`} onClick={() => setOpenDropDown(!openDropDown)}><KeyboardArrowDown colour='white'/></div> */}
-                    </div>
-
-                    {/* {openDropDown && <Link href="/templates" className={`flex space-x-2 items-center ml-14 my-4 py-4 px-6 ${pathname.includes("/templates") ? "bg-[#BA1E6B] rounded-[8px]" : ""}`}>
-                        <p className='font-gilroy-medium capitalize'> - Templates </p> 
-                    </Link>} */}
-                </div>
-                
-                <div onClick={() => setNavOpen(false)}>
-                    <Link href="/users" className={`flex space-x-4 items-center py-3 px-4 ${pathname === '/users'|| pathname === '/users/user-config' ?  'bg-magenta rounded-[8px]' : ''}`}>
-                        <FaUserGroup className="text-[24px]" />
-                        <p className="font-gilroy-medium capitalize"> Customers </p>
-                    </Link>
-                </div>
-
-                <div onClick={() => setNavOpen(false)}>
-                    <Link href="/networks" className={`flex space-x-4 items-center py-3 px-4 ${pathname === '/networks' || pathname === '/networks/network-config' ? 'bg-magenta rounded-[8px]' : ''}`}>
-                        <IoPersonAddSharp  className="text-[24px]" />
-                        <p className="font-gilroy-medium capitalize"> Add Lead </p>
-                    </Link>
-                </div>
-            </div>
-        </>
-    )
-}
-
-export default Sidebar
+export default Sidebar;
