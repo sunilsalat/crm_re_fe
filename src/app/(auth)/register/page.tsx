@@ -2,16 +2,19 @@
 import { register } from '@/actions/auth-actions';
 import ZodErrors from '@/app/component/error/ZodError';
 import Link from 'next/link';
-import { useFormState } from 'react-dom';
+import { useFormState, useFormStatus } from 'react-dom';
 
 
 const INITIAL_STATE = {
   zodErrors: null,
   data: null,
+  msg: ''
 }
 
 const Register = () => {
   const [formState, formAction] = useFormState(register, INITIAL_STATE)
+  const { pending } = useFormStatus()
+
   return (
     <>
       <h2 className="text-2xl font-semibold text-center text-primary">Register</h2>
@@ -81,9 +84,9 @@ const Register = () => {
           <ZodErrors error={formState?.zodErrors?.confirmPassword} />
 
         </div>
-        <button className="btn btn-primary w-full">Register</button>
+        <button className="btn btn-primary w-full" disabled={pending} type='submit'>{pending ? 'Loading...' : 'Register'}</button>
       </form>
-      <p className="text-center mt-4 text-neutral">
+      <p className="text-center mt-4 text-neutral" >
         Already have an account? <Link href="/login" className='text-primary'>Login</Link>
       </p>
     </>
