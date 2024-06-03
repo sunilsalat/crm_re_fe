@@ -1,3 +1,5 @@
+
+
 import { Metadata } from 'next';
 import Image from 'next/image';
 
@@ -10,6 +12,7 @@ import { Overview } from '@/components/comp/overview';
 import { RecentSales } from '@/components/comp/recent-sales';
 import TeamSwitcher from '@/components/comp/team-switcher';
 import { UserNav } from '@/components/comp/user-nav';
+import { Suspense } from 'react';
 
 export const metadata: Metadata = {
   title: 'Dashboard',
@@ -19,29 +22,15 @@ export const metadata: Metadata = {
 const page = () => {
   return (
     <>
+    <Suspense fallback={<>Loading........</>}>
       <section>
         <div className="">
           <h2 className="mb-4 text-xl font-semibold"> Dashboard </h2>
         </div>
 
         <>
-          <div className="md:hidden">
-            <Image
-              src="/examples/dashboard-light.png"
-              width={1280}
-              height={866}
-              alt="Dashboard"
-              className="block dark:hidden"
-            />
-            <Image
-              src="/examples/dashboard-dark.png"
-              width={1280}
-              height={866}
-              alt="Dashboard"
-              className="hidden dark:block"
-            />
-          </div>
-          <div className="hidden flex-col md:flex">
+         
+          <div className="flex-col md:flex">
             <div className="border-b">
               <div className="flex h-16 items-center px-4">
                 <TeamSwitcher />
@@ -212,6 +201,7 @@ const page = () => {
           </div>
         </>
       </section>
+      </Suspense>
     </>
   );
 };
