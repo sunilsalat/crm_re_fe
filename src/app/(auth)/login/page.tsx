@@ -4,6 +4,8 @@ import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 import { EMAIL, PASSWORD } from '@/constant/auth';
 import { authValidators } from '@/form-validators/authValidators';
+import { useAppDispatch, useAppSelector } from '@/hook';
+import { userLogin } from '@/redux/features/auth/authAsyncActions';
 
 const Login = () => {
   const {
@@ -12,9 +14,13 @@ const Login = () => {
     getValues,
     formState: { errors },
   } = useForm<LoginFormData>();
-
+  const dispatch = useAppDispatch()
+  const { loading } = useAppSelector(state => state.auth)
   const onSubmit = (data: LoginFormData) => {
     console.log({ data });
+    dispatch(userLogin(data)).then(e => {
+      console.log('e', e)
+    })
   };
 
   return (
@@ -50,7 +56,7 @@ const Login = () => {
           )}
         </div>
         <button className="btn btn-primary w-full" type="submit">
-          Login
+          {loading ? 'Loading...' : 'Login'}
         </button>
       </form>
       <p className="text-neutral mt-4 text-center">

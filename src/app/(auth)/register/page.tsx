@@ -2,6 +2,8 @@
 import { RegisterFormData } from '@/app/types/types';
 import { CONFIRM_PASSWORD, EMAIL, FIRST_NAME, LAST_NAME, PASSWORD, PHONE } from '@/constant/auth';
 import { authValidators } from '@/form-validators/authValidators';
+import { useAppDispatch, useAppSelector } from '@/hook';
+import { userRegister } from '@/redux/features/auth/authAsyncActions';
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 const Register = () => {
@@ -11,11 +13,12 @@ const Register = () => {
     getValues,
     formState: { errors },
   } = useForm<RegisterFormData>();
-
+  const dispatch = useAppDispatch()
+  const { loading } = useAppSelector(state => state.auth)
   const onSubmit = (data: RegisterFormData) => {
     console.log({ data });
+    dispatch(userRegister(data))
   };
-
   return (
     <>
       <h2 className="text-center text-2xl font-semibold text-primary">
@@ -109,7 +112,7 @@ const Register = () => {
           )}
         </div>
         <button className="btn btn-primary w-full" type="submit">
-          Register
+          {loading ? "Loading..." : "Register"}
         </button>
       </form>
       <p className="text-neutral mt-4 text-center">
