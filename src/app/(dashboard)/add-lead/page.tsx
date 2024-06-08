@@ -5,7 +5,7 @@ import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { IoIosArrowDown } from 'react-icons/io';
 
-const page = () => {
+const Page = () => {
   const {
     register,
     handleSubmit,
@@ -179,4 +179,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;
