@@ -1,96 +1,124 @@
-"use client"
-import { register } from '@/actions/auth-actions';
-import ZodErrors from '@/app/component/error/ZodError';
+'use client';
+import { RegisterFormData } from '@/app/types/types';
+import { CONFIRM_PASSWORD, EMAIL, FIRST_NAME, LAST_NAME, PASSWORD, PHONE } from '@/constant/auth';
+import { authValidators } from '@/form-validators/authValidators';
 import Link from 'next/link';
-import { useFormState, useFormStatus } from 'react-dom';
-
-
-const INITIAL_STATE = {
-  zodErrors: null,
-  data: null,
-  msg: ''
-}
-
+import { useForm } from 'react-hook-form';
 const Register = () => {
-  const [formState, formAction] = useFormState(register, INITIAL_STATE)
-  const { pending } = useFormStatus()
+  const {
+    register,
+    handleSubmit,
+    getValues,
+    formState: { errors },
+  } = useForm<RegisterFormData>();
+
+  const onSubmit = (data: RegisterFormData) => {
+    console.log({ data });
+  };
 
   return (
     <>
-      <h2 className="text-2xl font-semibold text-center text-primary">Register</h2>
-      <form className="mt-4" action={formAction}>
+      <h2 className="text-center text-2xl font-semibold text-primary">
+        Register
+      </h2>
+      <form className="mt-4" onSubmit={handleSubmit(onSubmit)}>
         <div className="mb-4">
-          <label className="block text-neutral">First Name</label>
+          <label className="text-neutral block">First Name</label>
           <input
             type="text"
-            className="input input-bordered w-full"
-            name="firstName"
+            {...register(FIRST_NAME, authValidators[FIRST_NAME])}
+            className={`w-full border rounded-sm ${getValues(FIRST_NAME) ? 'border-magenta' : 'border-gray-300'} ${errors[FIRST_NAME]?.message ? 'border-red-500' : 'border-gray-300'} `}
             placeholder="Enter your first name"
           />
-          <ZodErrors error={formState?.zodErrors?.firstName} />
+          {errors[FIRST_NAME]?.message && (
+            <span className="mt-2 block text-red-500 ">
+              {errors[FIRST_NAME]?.message}
+            </span>
+          )}
         </div>
         <div className="mb-4">
-          <label className="block text-neutral">Last Name</label>
+          <label className="text-neutral block">Last Name</label>
           <input
             type="text"
-            name='lastName'
-            className="input input-bordered w-full"
+            {...register(LAST_NAME, authValidators[LAST_NAME])}
+            className={`w-full border rounded-sm ${getValues(LAST_NAME) ? 'border-magenta' : 'border-gray-300'} ${errors[LAST_NAME]?.message ? 'border-red-500' : 'border-gray-300'} `}
             placeholder="Enter your last name"
           />
-          <ZodErrors error={formState?.zodErrors?.lastName} />
-
+          {errors[LAST_NAME]?.message && (
+            <span className="mt-2 block text-red-500 ">
+              {errors[LAST_NAME]?.message}
+            </span>
+          )}
         </div>
         <div className="mb-4">
-          <label className="block text-neutral">Email</label>
+          <label className="text-neutral block">Email</label>
           <input
             type="email"
-            name="email"
-            className="input input-bordered w-full"
+            {...register(EMAIL, authValidators[EMAIL])}
+            className={`w-full border rounded-sm ${getValues(EMAIL) ? 'border-magenta' : 'border-gray-300'} ${errors[EMAIL]?.message ? 'border-red-500' : 'border-gray-300'} `}
             placeholder="Enter your email"
           />
-          <ZodErrors error={formState?.zodErrors?.email} />
-
+          {errors[EMAIL]?.message && (
+            <span className="mt-2 block text-red-500 ">
+              {errors[EMAIL]?.message}
+            </span>
+          )}
         </div>
         <div className="mb-4">
-          <label className="block text-neutral">Phone</label>
+          <label className="text-neutral block">Phone</label>
           <input
             type="text"
-            name="phone"
-            className="input input-bordered w-full"
+            {...register(PHONE, authValidators[PHONE])}
+            className={`w-full border rounded-sm ${getValues(PHONE) ? 'border-magenta' : 'border-gray-300'} ${errors[PHONE]?.message ? 'border-red-500' : 'border-gray-300'} `}
             placeholder="Enter your phone number"
           />
-          <ZodErrors error={formState?.zodErrors?.phone} />
-
+          {errors[PHONE]?.message && (
+            <span className="mt-2 block text-red-500 ">
+              {errors[PHONE]?.message}
+            </span>
+          )}
         </div>
         <div className="mb-4">
-          <label className="block text-neutral">Password</label>
+          <label className="text-neutral block">Password</label>
           <input
             type="password"
-            name='password'
-            className="input input-bordered w-full"
+            {...register(PASSWORD, authValidators[PASSWORD])}
+            name="password"
+            className={`w-full border rounded-sm ${getValues(PASSWORD) ? 'border-magenta' : 'border-gray-300'} ${errors[PASSWORD]?.message ? 'border-red-500' : 'border-gray-300'} `}
             placeholder="Enter your password"
           />
-          <ZodErrors error={formState?.zodErrors?.password} />
-
+          {errors[PASSWORD]?.message && (
+            <span className="mt-2 block text-red-500 ">
+              {errors[PASSWORD]?.message}
+            </span>
+          )}
         </div>
         <div className="mb-4">
-          <label className="block text-neutral">Confirm Password</label>
+          <label className="text-neutral block">Confirm Password</label>
           <input
             type="password"
-            name='confirmPassword'
-            className="input input-bordered w-full"
+            {...register(CONFIRM_PASSWORD, authValidators[CONFIRM_PASSWORD])}
+            name="confirmPassword"
+            className={`w-full border rounded-sm ${getValues(CONFIRM_PASSWORD) ? 'border-magenta' : 'border-gray-300'} ${errors[CONFIRM_PASSWORD]?.message ? 'border-red-500' : 'border-gray-300'} `}
             placeholder="Enter your password"
           />
-          <ZodErrors error={formState?.zodErrors?.confirmPassword} />
-
+          {errors[CONFIRM_PASSWORD]?.message && (
+            <span className="mt-2 block text-red-500 ">
+              {errors[CONFIRM_PASSWORD]?.message}
+            </span>
+          )}
         </div>
-        <button className="btn btn-primary w-full" disabled={pending} type='submit'>{pending ? 'Loading...' : 'Register'}</button>
+        <button className="btn btn-primary w-full" type="submit">
+          Register
+        </button>
       </form>
-      <p className="text-center mt-4 text-neutral" >
-        Already have an account? <Link href="/login" className='text-primary'>Login</Link>
+      <p className="text-neutral mt-4 text-center">
+        Already have an account?{' '}
+        <Link href="/login" className="text-primary">
+          Login
+        </Link>
       </p>
     </>
-
   );
 };
 

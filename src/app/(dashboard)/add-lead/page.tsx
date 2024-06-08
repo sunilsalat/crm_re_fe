@@ -1,5 +1,4 @@
 'use client';
-
 import { AddLeadsFormData } from '@/app/types/types';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -9,8 +8,6 @@ const Page = () => {
   const {
     register,
     handleSubmit,
-    setValue,
-    watch,
     getValues,
     formState: { errors },
   } = useForm<AddLeadsFormData>();
