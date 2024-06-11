@@ -23,7 +23,6 @@ axiosInstance.interceptors.request.use(
 axiosInstance.interceptors.response.use(
   (response) => {
     // Handle response data as needed
-    console.log('axiosRes', response);
     return response;
   },
   (error) => {

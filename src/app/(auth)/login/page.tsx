@@ -6,21 +6,25 @@ import { EMAIL, PASSWORD } from '@/constant/auth';
 import { authValidators } from '@/form-validators/authValidators';
 import { useAppDispatch, useAppSelector } from '@/hook';
 import { userLogin } from '@/redux/features/auth/authAsyncActions';
+import { loginType } from '@/app/types/asyncActions';
+import { useRouter } from 'next/navigation';
 
 const Login = () => {
+  const router = useRouter();
   const {
     register,
     handleSubmit,
     getValues,
     formState: { errors },
   } = useForm<LoginFormData>();
-  const dispatch = useAppDispatch()
-  const { loading } = useAppSelector(state => state.auth)
+  const dispatch = useAppDispatch();
+  const { loading } = useAppSelector((state) => state.auth);
   const onSubmit = (data: LoginFormData) => {
-    console.log({ data });
-    dispatch(userLogin(data)).then(e => {
-      console.log('e', e)
-    })
+    dispatch(userLogin(data)).then((e) => {
+      if (e.type === `${loginType}/fulfilled`) {
+        router.push('/dashboard');
+      }
+    });
   };
 
   return (
@@ -32,7 +36,7 @@ const Login = () => {
           <input
             type="email"
             {...register(EMAIL, authValidators[EMAIL])}
-            className={`w-full border rounded-sm ${getValues(EMAIL) ? 'border-magenta' : 'border-gray-300'} ${errors[EMAIL]?.message ? 'border-red-500' : 'border-gray-300'} `}
+            className={`w-full rounded-sm border ${getValues(EMAIL) ? 'border-magenta' : 'border-gray-300'} ${errors[EMAIL]?.message ? 'border-red-500' : 'border-gray-300'} `}
             placeholder="Enter your email"
           />
           {errors[EMAIL]?.message && (
@@ -46,7 +50,7 @@ const Login = () => {
           <input
             type="password"
             {...register(PASSWORD, authValidators[PASSWORD])}
-            className={`w-full border rounded-sm ${getValues(PASSWORD) ? 'border-magenta' : 'border-gray-300'} ${errors[PASSWORD]?.message ? 'border-red-500' : 'border-gray-300'}`}
+            className={`w-full rounded-sm border ${getValues(PASSWORD) ? 'border-magenta' : 'border-gray-300'} ${errors[PASSWORD]?.message ? 'border-red-500' : 'border-gray-300'}`}
             placeholder="Enter your password"
           />
           {errors[PASSWORD]?.message && (

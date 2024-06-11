@@ -27,7 +27,6 @@ export const authSlice = createSlice({
       })
       .addCase(userLogin.fulfilled, (state, action) => {
         state.loading = false;
-        console.log('loginRes', action.payload);
         state.userData = action.payload;
         state.isLoggedin = true;
       })
@@ -44,7 +43,6 @@ export const authSlice = createSlice({
       })
       .addCase(userRegister.fulfilled, (state, action) => {
         state.loading = false;
-        console.log('regRes', action.payload);
         state.userData = action.payload;
         state.isLoggedin = true;
       })

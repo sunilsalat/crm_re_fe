@@ -1,23 +1,38 @@
 'use client';
+import { registerType } from '@/app/types/asyncActions';
 import { RegisterFormData } from '@/app/types/types';
-import { CONFIRM_PASSWORD, EMAIL, FIRST_NAME, LAST_NAME, PASSWORD, PHONE } from '@/constant/auth';
+import {
+  CONFIRM_PASSWORD,
+  EMAIL,
+  FIRST_NAME,
+  LAST_NAME,
+  PASSWORD,
+  PHONE,
+} from '@/constant/auth';
 import { authValidators } from '@/form-validators/authValidators';
 import { useAppDispatch, useAppSelector } from '@/hook';
 import { userRegister } from '@/redux/features/auth/authAsyncActions';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 const Register = () => {
+  const router = useRouter();
   const {
     register,
     handleSubmit,
     getValues,
+    reset,
     formState: { errors },
   } = useForm<RegisterFormData>();
-  const dispatch = useAppDispatch()
-  const { loading } = useAppSelector(state => state.auth)
+  const dispatch = useAppDispatch();
+  const { loading } = useAppSelector((state) => state.auth);
   const onSubmit = (data: RegisterFormData) => {
-    console.log({ data });
-    dispatch(userRegister(data))
+    dispatch(userRegister(data)).then((e) => {
+      if (e.type === `${registerType}/fulfilled`) {
+        router.push('/login');
+        reset();
+      }
+    });
   };
   return (
     <>
@@ -30,7 +45,7 @@ const Register = () => {
           <input
             type="text"
             {...register(FIRST_NAME, authValidators[FIRST_NAME])}
-            className={`w-full border rounded-sm ${getValues(FIRST_NAME) ? 'border-magenta' : 'border-gray-300'} ${errors[FIRST_NAME]?.message ? 'border-red-500' : 'border-gray-300'} `}
+            className={`w-full rounded-sm border ${getValues(FIRST_NAME) ? 'border-magenta' : 'border-gray-300'} ${errors[FIRST_NAME]?.message ? 'border-red-500' : 'border-gray-300'} `}
             placeholder="Enter your first name"
           />
           {errors[FIRST_NAME]?.message && (
@@ -44,7 +59,7 @@ const Register = () => {
           <input
             type="text"
             {...register(LAST_NAME, authValidators[LAST_NAME])}
-            className={`w-full border rounded-sm ${getValues(LAST_NAME) ? 'border-magenta' : 'border-gray-300'} ${errors[LAST_NAME]?.message ? 'border-red-500' : 'border-gray-300'} `}
+            className={`w-full rounded-sm border ${getValues(LAST_NAME) ? 'border-magenta' : 'border-gray-300'} ${errors[LAST_NAME]?.message ? 'border-red-500' : 'border-gray-300'} `}
             placeholder="Enter your last name"
           />
           {errors[LAST_NAME]?.message && (
@@ -58,7 +73,7 @@ const Register = () => {
           <input
             type="email"
             {...register(EMAIL, authValidators[EMAIL])}
-            className={`w-full border rounded-sm ${getValues(EMAIL) ? 'border-magenta' : 'border-gray-300'} ${errors[EMAIL]?.message ? 'border-red-500' : 'border-gray-300'} `}
+            className={`w-full rounded-sm border ${getValues(EMAIL) ? 'border-magenta' : 'border-gray-300'} ${errors[EMAIL]?.message ? 'border-red-500' : 'border-gray-300'} `}
             placeholder="Enter your email"
           />
           {errors[EMAIL]?.message && (
@@ -72,7 +87,7 @@ const Register = () => {
           <input
             type="text"
             {...register(PHONE, authValidators[PHONE])}
-            className={`w-full border rounded-sm ${getValues(PHONE) ? 'border-magenta' : 'border-gray-300'} ${errors[PHONE]?.message ? 'border-red-500' : 'border-gray-300'} `}
+            className={`w-full rounded-sm border ${getValues(PHONE) ? 'border-magenta' : 'border-gray-300'} ${errors[PHONE]?.message ? 'border-red-500' : 'border-gray-300'} `}
             placeholder="Enter your phone number"
           />
           {errors[PHONE]?.message && (
@@ -87,7 +102,7 @@ const Register = () => {
             type="password"
             {...register(PASSWORD, authValidators[PASSWORD])}
             name="password"
-            className={`w-full border rounded-sm ${getValues(PASSWORD) ? 'border-magenta' : 'border-gray-300'} ${errors[PASSWORD]?.message ? 'border-red-500' : 'border-gray-300'} `}
+            className={`w-full rounded-sm border ${getValues(PASSWORD) ? 'border-magenta' : 'border-gray-300'} ${errors[PASSWORD]?.message ? 'border-red-500' : 'border-gray-300'} `}
             placeholder="Enter your password"
           />
           {errors[PASSWORD]?.message && (
@@ -102,7 +117,7 @@ const Register = () => {
             type="password"
             {...register(CONFIRM_PASSWORD, authValidators[CONFIRM_PASSWORD])}
             name="confirmPassword"
-            className={`w-full border rounded-sm ${getValues(CONFIRM_PASSWORD) ? 'border-magenta' : 'border-gray-300'} ${errors[CONFIRM_PASSWORD]?.message ? 'border-red-500' : 'border-gray-300'} `}
+            className={`w-full rounded-sm border ${getValues(CONFIRM_PASSWORD) ? 'border-magenta' : 'border-gray-300'} ${errors[CONFIRM_PASSWORD]?.message ? 'border-red-500' : 'border-gray-300'} `}
             placeholder="Enter your password"
           />
           {errors[CONFIRM_PASSWORD]?.message && (
@@ -112,7 +127,7 @@ const Register = () => {
           )}
         </div>
         <button className="btn btn-primary w-full" type="submit">
-          {loading ? "Loading..." : "Register"}
+          {loading ? 'Loading...' : 'Register'}
         </button>
       </form>
       <p className="text-neutral mt-4 text-center">
