@@ -1,9 +1,8 @@
 "use client";
 
 import React, { useState } from 'react';
-import Sidebar from '../component/sidebar/Sidebar';
-import Navbar from '../component/navbar/Navbar';
-import { MainNav } from '../component/navbar/NavShadcn';
+import Sidebar from '../../components/sidebar/Sidebar';
+import Navbar from '../../components/navbar/Navbar';
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   const [isNavOpen, setNavOpen] = useState(false);
@@ -13,7 +12,6 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
       <Sidebar isNavOpen={isNavOpen} setNavOpen={setNavOpen} />
       <div className="flex-1 flex flex-col">
         <Navbar isNavOpen={isNavOpen} setNavOpen={setNavOpen} />
-        {/* <MainNav /> */}
         <main className="flex-1 overflow-y-auto p-4 md:p-8 bg-gray-100">
           {children}
         </main>

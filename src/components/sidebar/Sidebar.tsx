@@ -16,7 +16,7 @@ const Sidebar = ({ isNavOpen, setNavOpen }: { isNavOpen: boolean; setNavOpen: an
   };
 
   return (
-    <div className={`fixed md:relative z-50 h-full transition-transform transform bg-white ${isNavOpen ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0 w-64 shadow-lg`}>
+    <div className={`fixed md:relative z-50 h-full transition-transform transform  ${isNavOpen ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0 w-64 `}>
       <div className="flex items-center justify-between py-4 px-8 border-b border-gray-200">
         <Link href="/dashboard">
           <Image
@@ -39,9 +39,9 @@ const Sidebar = ({ isNavOpen, setNavOpen }: { isNavOpen: boolean; setNavOpen: an
           <FaUserGroup className="text-2xl mr-2" />
           Customers
         </Link>
-        <Link href="/add-lead" onClick={handleLinkClick} className={`flex items-center py-2 px-4 rounded-lg ${pathname === '/add-lead' ? 'bg-blue-500 text-white' : 'text-gray-700 hover:bg-gray-200'}`}>
+        <Link href="/leads" onClick={handleLinkClick} className={`flex items-center py-2 px-4 rounded-lg ${pathname === '/add-lead' ? 'bg-blue-500 text-white' : 'text-gray-700 hover:bg-gray-200'}`}>
           <IoPersonAddSharp className="text-2xl mr-2" />
-          Add Lead
+          Leads
         </Link>
       </nav>
     </div>

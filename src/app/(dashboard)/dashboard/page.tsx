@@ -4,14 +4,13 @@ import { Metadata } from 'next';
 import Image from 'next/image';
 
 import { DatePicker } from '@/components/date-picker/DatePicker';
-import { MainNav } from '@/components/comp/main-nav';
-import { Search } from '@/components/comp/search';
+import { MainNav } from '@/components/component/main-nav';
+import { Search } from '@/components/component/search';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Overview } from '@/components/comp/overview';
-import { RecentSales } from '@/components/comp/recent-sales';
-import TeamSwitcher from '@/components/comp/team-switcher';
-import { UserNav } from '@/components/comp/user-nav';
+import { Overview } from '@/components/component/overview';
+import { RecentSales } from '@/components/component/recent-sales';
+import { UserNav } from '@/components/component/user-nav';
 import { Suspense } from 'react';
 
 export const metadata: Metadata = {
@@ -24,8 +23,11 @@ const page = () => {
     <>
     <Suspense fallback={<>Loading........</>}>
       <section>
-        <div className="">
-          <h2 className="mb-4 text-xl font-semibold"> Dashboard </h2>
+        <div className="flex items-center justify-between space-y-2">
+          <h2 className="text-3xl font-bold tracking-tight">Dashboard</h2>
+          <div className="flex items-center space-x-2">
+           
+          </div>
         </div>
 
         <>
@@ -33,22 +35,15 @@ const page = () => {
           <div className="flex-col md:flex">
             <div className="border-b">
               <div className="flex h-16 items-center px-4">
-                <TeamSwitcher />
-                <MainNav className="mx-6" />
-                <div className="ml-auto flex items-center space-x-4">
+                <MainNav className="" />
+                <div className="hidden md:flex ml-auto  items-center space-x-4">
                   <Search />
                   <UserNav />
                 </div>
               </div>
             </div>
-            <div className="flex-1 space-y-4 p-8 pt-6">
-              <div className="flex items-center justify-between space-y-2">
-                <h2 className="text-3xl font-bold tracking-tight">Dashboard</h2>
-                <div className="flex items-center space-x-2">
-                  {/* <CalendarDateRangePicker /> */}
-                  {/* <Button>Download</Button> */}
-                </div>
-              </div>
+            <div className="flex-1 space-y-4  pt-6">
+              
               <Tabs defaultValue="overview" className="space-y-4">
                 <TabsList>
                   <TabsTrigger value="overview">Overview</TabsTrigger>
@@ -63,7 +58,7 @@ const page = () => {
                   </TabsTrigger>
                 </TabsList>
                 <TabsContent value="overview" className="space-y-4">
-                  <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+                  <div className="grid gap-4 md:grid-cols-2 grid-cols-2 lg:grid-cols-4">
                     <Card>
                       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                         <CardTitle className="text-sm font-medium">
@@ -89,6 +84,7 @@ const page = () => {
                         </p>
                       </CardContent>
                     </Card>
+
                     <Card>
                       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                         <CardTitle className="text-sm font-medium">
@@ -116,6 +112,7 @@ const page = () => {
                         </p>
                       </CardContent>
                     </Card>
+
                     <Card>
                       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                         <CardTitle className="text-sm font-medium">
@@ -142,6 +139,7 @@ const page = () => {
                         </p>
                       </CardContent>
                     </Card>
+                    
                     <Card>
                       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                         <CardTitle className="text-sm font-medium">
@@ -168,16 +166,11 @@ const page = () => {
                       </CardContent>
                     </Card>
                   </div>
-                  <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
-                    <Card className="col-span-4">
-                      <CardHeader>
-                        <CardTitle>Overview</CardTitle>
-                      </CardHeader>
-                      <CardContent className="pl-2">
-                        <Overview />
-                      </CardContent>
-                    </Card>
-                    <Card className="col-span-3">
+
+
+                  <div className="grid gap-0 md:gap-4 md:grid-cols-2 grid-cols-1 lg:grid-cols-7">
+
+                    <Card className="col-span-3 mb-4 md:mb-0 w-full overflow-y-auto">
                     
                       <CardHeader>
                         <CardTitle>Recent Leads</CardTitle>
@@ -186,14 +179,24 @@ const page = () => {
                         </CardDescription>
                       </CardHeader>
 
-                      <div className='w-full mt-2 mb-4 px-4'>
+                      <div className='w-full mb-6 px-4'>
                         <DatePicker />
                       </div>
 
-                      <CardContent>
+                      <CardContent className='w-full'>
                         <RecentSales />
                       </CardContent>
                     </Card>
+
+                    <Card className="col-span-4 h-fit overflow-hidden">
+                      <CardHeader>
+                        <CardTitle>Overview</CardTitle>
+                      </CardHeader>
+                      <CardContent className="pl-2">
+                        <Overview />
+                      </CardContent>
+                    </Card>
+
                   </div>
                 </TabsContent>
               </Tabs>
