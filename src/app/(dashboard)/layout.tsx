@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useState } from 'react';
-import Sidebar from '../../components/sidebar/Sidebar';
-import Navbar from '../../components/navbar/Navbar';
+import Sidebar from '../../_components/sidebar/Sidebar';
+import Navbar from '../../_components/navbar/Navbar';
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   const [isNavOpen, setNavOpen] = useState(false);

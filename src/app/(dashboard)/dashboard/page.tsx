@@ -1,28 +1,40 @@
-import { Metadata } from 'next';
+"use client"
+
+// import { Metadata } from 'next';
 import Image from 'next/image';
 
-import { DatePicker } from '@/components/date-picker/DatePicker';
-import { MainNav } from '@/components/component/main-nav';
-import { Search } from '@/components/component/search';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { DatePicker } from '@/_components/date-picker/DatePicker';
+import { MainNav } from '@/_components/component/main-nav';
+import { Search } from '@/_components/component/search';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/_components/ui/tabs';
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
-import { Overview } from '@/components/component/overview';
-import { RecentSales } from '@/components/component/recent-sales';
-import { UserNav } from '@/components/component/user-nav';
-import { Suspense } from 'react';
+} from '@/_components/ui/card';
+import { Overview } from '@/_components/component/overview';
+import { RecentSales } from '@/_components/component/recent-sales';
+import { UserNav } from '@/_components/component/user-nav';
+import { Suspense, useState } from 'react';
 
-export const metadata: Metadata = {
-  title: 'Dashboard',
-  description: 'Example dashboard app built using the components.',
-};
+// export const metadata: Metadata = {
+//   title: 'Dashboard',
+//   description: 'Example dashboard app built using the _components.',
+// };
 
 const page = () => {
+
+  const [dataFromChild, setDataFromChild] = useState<string | null>(null);
+
+  const handleDateForLeadData = (data:string | null) => {
+    setDataFromChild(data);
+  };
+
+  console.log(dataFromChild,"dataFromChild")
+
+
   return (
     <>
       <Suspense fallback={<>Loading........</>}>
@@ -43,7 +55,7 @@ const page = () => {
                   </div>
                 </div>
               </div>
-              <div className="flex-1 space-y-4  pt-6">
+              <div className="flex-1 space-y-4 pt-6">
                 <Tabs defaultValue="overview" className="space-y-4">
                   <TabsList>
                     <TabsTrigger value="overview">Overview</TabsTrigger>
@@ -177,7 +189,7 @@ const page = () => {
                         </CardHeader>
 
                         <div className="mb-6 w-full px-4">
-                          <DatePicker />
+                          <DatePicker handleDate={handleDateForLeadData} />
                         </div>
 
                         <CardContent className="w-full">
