@@ -1,8 +1,9 @@
 "use client"
 
+import { DatePicker } from '@/_components/date-picker/DatePicker';
 import { SelectScrollable } from '@/_components/ui/SelectScrollable';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/_components/ui/tabs';
-import React from 'react'
+import React, { useState } from 'react'
 import { BiSolidEdit } from "react-icons/bi";
 
 
@@ -12,13 +13,21 @@ const page = () => {
         { value: 'option1', label: 'Option 1' },
         { value: 'option2', label: 'Option 2' },
         { value: 'option3', label: 'Option 3' },
-      ];
+    ];
+
+    const [dataFromChild, setDataFromChild] = useState<string | null>(null);
+
+    const handleDateForLeadData = (data:string | null) => {
+        setDataFromChild(data);
+    };
+
+    console.log(dataFromChild,"dataFromChild")
 
     const handleSelectChange = (selectedValue: string) => {
-    console.log("Selected value:", selectedValue);
+        console.log("Selected value:", selectedValue);
     };
-    
-      
+
+
     return (
         <section className='bg-white rounded-md'>
             <div className='p-4'>
@@ -54,17 +63,17 @@ const page = () => {
                         </div>
 
                         <div className=''>
-                            <Tabs defaultValue="overview" className="space-y-4 w-full">
+                            <Tabs defaultValue="note" className="space-y-4 w-full">
                                 <TabsList className='w-full justify-start '>
                                     <TabsTrigger value="note">Note</TabsTrigger>
                                     <TabsTrigger value="call" >
-                                    Call
+                                        Call
                                     </TabsTrigger>
                                     <TabsTrigger value="site-visit">
-                                    Site Visit
+                                        Site Visit
                                     </TabsTrigger>
                                     <TabsTrigger value="followup">
-                                    Followup
+                                        Followup
                                     </TabsTrigger>
                                 </TabsList>
 
@@ -72,20 +81,28 @@ const page = () => {
                                 <TabsContent value="note" className="space-y-4">
                                     <textarea name="note" className='border-2 focus:outline-gray-400 rounded-sm p-2 border-gray-300 w-full' id=""></textarea>
                                     <SelectScrollable options={options} onValueChange={handleSelectChange} placeholder="Select project" />
-
-                                    <button className=''>Submit</button>
+                                    <button className='bg-blue-500 px-4 py-2 rounded-md text-white'>Submit</button>
                                 </TabsContent>
 
                                 <TabsContent value="call" className="space-y-4">
                                     <textarea name="note" className='border-2 focus:outline-gray-400 rounded-sm p-2 border-gray-300 w-full' id=""></textarea>
+                                    <SelectScrollable options={options} onValueChange={handleSelectChange} placeholder="Select project" />
+                                    <button className='bg-blue-500 px-4 py-2 rounded-md text-white'>Submit</button>
                                 </TabsContent>
 
                                 <TabsContent value="site-visit" className="space-y-4">
+                                    <div className="mb-3 w-full">
+                                        <DatePicker handleDate={handleDateForLeadData} />
+                                    </div>
                                     <textarea name="note" className='border-2 focus:outline-gray-400 rounded-sm p-2 border-gray-300 w-full' id=""></textarea>
+                                    <SelectScrollable options={options} onValueChange={handleSelectChange} placeholder="Select project" />
+                                    <button className='bg-blue-500 px-4 py-2 rounded-md text-white'>Submit</button>
                                 </TabsContent>
 
                                 <TabsContent value="followup" className="space-y-4">
                                     <textarea name="note" className='border-2 focus:outline-gray-400 rounded-sm p-2 border-gray-300 w-full' id=""></textarea>
+                                    <SelectScrollable options={options} onValueChange={handleSelectChange} placeholder="Select project" />
+                                    <button className='bg-blue-500 px-4 py-2 rounded-md text-white'>Submit</button>
                                 </TabsContent>
                             </Tabs>
 
