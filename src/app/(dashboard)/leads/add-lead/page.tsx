@@ -1,6 +1,9 @@
 'use client';
 
+import { leadType } from '@/app/types/asyncActions';
 import { AddLeadsFormData } from '@/app/types/types';
+import { useAppDispatch } from '@/hook';
+import { createLead } from '@/redux/features/lead/leadAsyncActions';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -17,10 +20,18 @@ const Page = () => {
     formState: { errors },
   } = useForm<AddLeadsFormData>();
 
+  const dispatch = useAppDispatch();
+
   const [formData, setFormData] = useState({});
 
   const onSubmit = (values: any) => {
     console.log(values, 'values');
+
+    dispatch(createLead(values)).then((e) => {
+      if (e.type === `${leadType}/fulfilled`) {
+        // router.push('/leads');
+      }
+    });
   };
 
   const handleChange = (e: any) => {
@@ -46,7 +57,7 @@ const Page = () => {
           onSubmit={handleSubmit(onSubmit)}
           className="flex flex-col"
         >
-          <div className="mb-6">
+          {/* <div className="mb-6">
             <h2 className="mb-4 text-lg">Lead type</h2>
 
             <div className="flex space-x-4">
@@ -66,7 +77,7 @@ const Page = () => {
             {errors.lead_type && errors.lead_type.type === 'required' && (
               <span className="mt-2 block text-red-500 ">* This is required</span>
             )}
-          </div>
+          </div> */}
 
           <div className="mb-6 space-y-6">
             <h2 className="mb-4 text-lg">Personal details</h2>
@@ -93,30 +104,14 @@ const Page = () => {
             <div className="flex w-full space-x-6">
               <div className="w-full">
                 <input
-                  {...register('first_name', {
+                  {...register('name', {
                     required: true,
                     onChange: handleChange,
                   })}
-                  placeholder="First Name"
-                  className={`${getValues('first_name') ? 'border-magenta' : 'border-gray-300'} ${errors.first_name ? 'border-red-500' : 'border-gray-300'} w-full rounded-sm border px-4 py-3 text-md`}
+                  placeholder="Full Name"
+                  className={`${getValues('name') ? 'border-magenta' : 'border-gray-300'} ${errors.name ? 'border-red-500' : 'border-gray-300'} w-full rounded-sm border px-4 py-3 text-md`}
                 />
-                {errors.first_name && errors.first_name.type === 'required' && (
-                  <span className="mt-2 block text-red-500 ">
-                    * This is required
-                  </span>
-                )}
-              </div>
-
-              <div className="w-full">
-                <input
-                  {...register('last_name', {
-                    required: true,
-                    onChange: handleChange,
-                  })}
-                  placeholder="Last Name"
-                  className={`${getValues('last_name') ? 'border-magenta' : 'border-gray-300'} ${errors.last_name ? 'border-red-500' : 'border-gray-300'} w-full rounded-sm border px-4 py-3 text-md`}
-                />
-                {errors.last_name && errors.last_name.type === 'required' && (
+                {errors.name && errors.name.type === 'required' && (
                   <span className="mt-2 block text-red-500 ">
                     * This is required
                   </span>
@@ -129,16 +124,16 @@ const Page = () => {
               <input
                 type="number"
                 onChangeCapture={handlecontact_numberChange}
-                {...register('contact_number', {
+                {...register('phone', {
                   required: true,
                   onChange: handleChange,
                 })}
                 placeholder="Contact Number"
-                className={`${getValues('contact_number') ? 'border-magenta' : 'border-gray-300'} w-full rounded-sm border px-4 py-3 text-md ${errors.contact_number ? 'border-red-500' : 'border-gray-300'}`}
+                className={`${getValues('phone') ? 'border-magenta' : 'border-gray-300'} w-full rounded-sm border px-4 py-3 text-md ${errors.phone ? 'border-red-500' : 'border-gray-300'}`}
               />
 
-              {errors.contact_number &&
-                errors.contact_number.type === 'required' && (
+              {errors.phone &&
+                errors.phone.type === 'required' && (
                   <span className="mt-2 block text-red-500 ">
                     * This is required
                   </span>
@@ -148,15 +143,15 @@ const Page = () => {
             <div>
               <input
                 type="email"
-                {...register('email_id', {
+                {...register('email', {
                   required: true,
                   onChange: handleChange,
                   pattern: /^\S+@\S+$/i,
                 })}
                 placeholder="Email Address"
-                className={`${getValues('email_id') ? 'border-magenta' : 'border-gray-300'} w-full rounded-sm border px-4 py-3 text-md ${errors.email_id ? 'border-red-500' : 'border-gray-300'}`}
+                className={`${getValues('email') ? 'border-magenta' : 'border-gray-300'} w-full rounded-sm border px-4 py-3 text-md ${errors.email ? 'border-red-500' : 'border-gray-300'}`}
               />
-              {errors.email_id && errors.email_id.type === 'required' && (
+              {errors.email && errors.email.type === 'required' && (
                 <span className="mt-2 block text-red-500 ">
                   * This is required
                 </span>
@@ -164,17 +159,66 @@ const Page = () => {
             </div>
           </div>
 
+          <div className="w-full">
+              <input
+                {...register('address', {
+                  required: true,
+                  onChange: handleChange,
+                })}
+                placeholder="Current Address"
+                className={`${getValues('address') ? 'border-magenta' : 'border-gray-300'} ${errors.address ? 'border-red-500' : 'border-gray-300'} w-full rounded-sm border px-4 py-3 text-md`}
+              />
+              {errors.address && errors.address.type === 'required' && (
+                <span className="mt-2 block text-red-500 ">
+                  * This is required
+                </span>
+              )}
+          </div>
+
+          <div className="flex w-full space-x-6 mt-6">
+
+          <div className="w-full">
+              {/* validate: validatecontact_number, */}
+              <input
+                type="number"
+                onChangeCapture={handlecontact_numberChange}
+                {...register('budget', {
+                  required: true,
+                  onChange: handleChange,
+                })}
+                placeholder="Budget"
+                className={`${getValues('budget') ? 'border-magenta' : 'border-gray-300'} w-full rounded-sm border px-4 py-3 text-md ${errors.budget ? 'border-red-500' : 'border-gray-300'}`}
+              />
+
+              {errors.budget &&
+                errors.budget.type === 'required' && (
+                  <span className="mt-2 block text-red-500 ">
+                    * This is required
+                  </span>
+                )}
+            </div>
+
+              <div className="w-full">
+                <input
+                  {...register('source', {
+                    required: true,
+                    onChange: handleChange,
+                  })}
+                  placeholder="Source"
+                  className={`${getValues('source') ? 'border-magenta' : 'border-gray-300'} ${errors.source ? 'border-red-500' : 'border-gray-300'} w-full rounded-sm border px-4 py-3 text-md`}
+                />
+                {errors.source && errors.source.type === 'required' && (
+                  <span className="mt-2 block text-red-500 ">
+                    * This is required
+                  </span>
+                )}
+              </div>
+            </div>
+
           <button
             type="submit"
             className="bg-blue-600 ml-auto mt-3 block min-w-36 rounded-md py-3 font-semibold text-white"
           >
-            {/* {leadPending ?
-          <div
-              className={`inline-block h-4 w-4 animate-spin rounded-full border-4 border-solid border-white border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]`}
-              role="status">
-          </div>
-
-          : 'Submit'} */}
             Submit
           </button>
         </form>

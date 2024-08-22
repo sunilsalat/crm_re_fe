@@ -8,13 +8,16 @@ import {
 } from '@/constant/auth';
 
 export type AddLeadsFormData = {
-  lead_type: 'Hot' | 'Cold';
-  title: 'Mr.' | 'Ms.' | 'Miss.';
-  first_name: string;
-  last_name: string;
-  contact_number: number;
-  email_id: string;
+  lead_type?: 'Hot' | 'Cold';
+
+  name: string;
+  phone: number;
+  email: string;
+  address:string;
+  project:string;
   requirement: string;
+  source:string;
+  budget:string;
 };
 
 export type LoginFormData = {
