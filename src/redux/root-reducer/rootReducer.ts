@@ -3,6 +3,8 @@ import { combineReducers } from '@reduxjs/toolkit';
 import loginReducer, {
   initialState as authInitialState,
 } from '../features/auth/authSlice';
+
+import leadReducer from '../features/lead/leadSlice';
 import storage from 'redux-persist/lib/storage';
 import { persistReducer } from 'redux-persist';
 
@@ -24,6 +26,7 @@ const rootReducer: any = (state: any, action: any) => {
 
   return combineReducers({
     auth: peristedLoginReducer,
+    lead:leadReducer
   })(state, action);
 };
 

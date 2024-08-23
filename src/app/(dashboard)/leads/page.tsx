@@ -3,40 +3,22 @@
 import { LeadTable } from '@/_components/table/LeadTable';
 import { Button } from '@/_components/ui/button';
 import { AddLeadsFormData } from '@/app/types/types';
+import { useAppDispatch } from '@/hook';
+import { geteLeads } from '@/redux/features/lead/leadAsyncActions';
 import { useRouter } from 'next/navigation';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { IoIosArrowDown } from 'react-icons/io';
 
 const Page = () => {
 
   const router = useRouter()
-
-  const {
-    register,
-    handleSubmit,
-    getValues,
-    formState: { errors },
-  } = useForm<AddLeadsFormData>();
-
-  const [formData, setFormData] = useState({});
+  const dispatch = useAppDispatch()
   
+  useEffect(() => {
+    dispatch(geteLeads(""))
+  }, [])
 
-  const onSubmit = (values: any) => {
-    console.log(values, 'values');
-  };
-
-  const handleChange = (e: any) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  };
-
-  const handlecontact_numberChange = (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const value = e.target.value.replace(/\D/g, ''); // Remove non-numeric characters
-    // setValue('contact_number', value.slice(0, 10)); // Limit to 10 digits
-  };
 
   return (
     <section>

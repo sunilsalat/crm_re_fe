@@ -5,3 +5,4 @@ export const registerUrl = `${baseUrl}user/register`;
 export const logoutUrl = `${baseUrl}user/logout`;
 
 export const createLeadUrl = `${baseUrl}lead/create`;
+export const getAllLeadUrl = `${baseUrl}lead/create`;
