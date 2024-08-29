@@ -2,13 +2,10 @@
 
 import { LeadTable } from '@/_components/table/LeadTable';
 import { Button } from '@/_components/ui/button';
-import { AddLeadsFormData } from '@/app/types/types';
 import { useAppDispatch } from '@/hook';
 import { geteLeads } from '@/redux/features/lead/leadAsyncActions';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { IoIosArrowDown } from 'react-icons/io';
 
 const Page = () => {
 
@@ -16,7 +13,7 @@ const Page = () => {
   const dispatch = useAppDispatch()
   
   useEffect(() => {
-    dispatch(geteLeads(""))
+    dispatch(geteLeads({}))
   }, [])
 
 

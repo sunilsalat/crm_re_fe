@@ -78,6 +78,7 @@ const Login = () => {
         <button className="btn btn-primary w-full bg-blue-500 text-white font-semibold py-2 rounded-sm" type="submit">
           {loading ? 'Loading...' : 'Login'}
         </button>
+        <div className='pt-4 text-center underline '><Link href={'/register'} className='hover:text-blue-500'>Register now</Link></div>
       </form>
 
         {/* <div className='flex my-10 items-center'>
