@@ -2,7 +2,7 @@
 
 import { LeadTable } from '@/_components/table/LeadTable';
 import { Button } from '@/_components/ui/button';
-import { useAppDispatch } from '@/hook';
+import { useAppDispatch, useAppSelector } from '@/hook';
 import { geteLeads } from '@/redux/features/lead/leadAsyncActions';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
@@ -11,11 +11,12 @@ const Page = () => {
 
   const router = useRouter()
   const dispatch = useAppDispatch()
+
+  const {getAllLeadData} = useAppSelector(state=>state.lead)
   
   useEffect(() => {
     dispatch(geteLeads({}))
   }, [])
-
 
   return (
     <section>
@@ -26,7 +27,7 @@ const Page = () => {
       </div>
 
       <div className='rounded-[10px] bg-white p-6'>
-        <LeadTable/>
+        <LeadTable tableData={getAllLeadData?.data?.data || []} />
       </div>
     </section>
   );
